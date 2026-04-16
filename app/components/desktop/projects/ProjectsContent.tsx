@@ -1,8 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+
+const ComicFlipbookViewer = dynamic(() => import("./ComicFlipbookViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[58vh] items-center justify-center rounded-[16px] border border-dashed border-[#bfd5ef] bg-white/70 px-6 text-center">
+      <div>
+        <p className="font-hand text-[16px] text-[#1a5ea9]">
+          opening comic reader...
+        </p>
+        <p className="font-ui mt-2 text-[13px] leading-6 text-[#5f7ba1]">
+          putting the page-flip effect together.
+        </p>
+      </div>
+    </div>
+  ),
+});
 
 const toolTags = [
   "Clip Studio Point",
@@ -39,6 +56,7 @@ type ProjectPlaceholder = {
   media?: ProjectMedia;
   documentSrc?: string;
   documentTitle?: string;
+  flipbookSrc?: string;
   companionTitle?: string;
   companionText?: string;
   companionHref?: string;
@@ -580,6 +598,8 @@ const projectSections = [
         previewFit: "contain",
         backgroundClassName: "bg-[#090911]",
         tileClassName: "aspect-[4/5]",
+        flipbookSrc: "/pdfs/deon-comic-for-idea.pdf",
+        documentTitle: "Deon Comic for iDEA",
         media: {
           kind: "image",
           src: "/images/other/deon-cover.jpg",
@@ -711,7 +731,10 @@ function PreviewOverlay({
     };
   }, [onClose]);
 
-  if (!item.media || typeof document === "undefined") {
+  if (
+    typeof document === "undefined" ||
+    (!item.media && !item.documentSrc && !item.flipbookSrc)
+  ) {
     return null;
   }
 
@@ -722,7 +745,7 @@ function PreviewOverlay({
       onClick={onClose}
     >
       <div
-        className="relative mx-auto flex w-full max-w-[min(96vw,980px)] flex-col items-center gap-4"
+        className="relative mx-auto flex w-full max-w-[min(96vw,1120px)] flex-col items-center gap-4"
         onPointerDown={(event) => event.stopPropagation()}
         onClick={(event) => event.stopPropagation()}
       >
@@ -735,7 +758,27 @@ function PreviewOverlay({
         </button>
 
         <div className="w-full overflow-hidden rounded-[10px] border border-white/30 bg-black shadow-[0_22px_60px_rgba(0,0,0,0.28)]">
-          {item.documentSrc ? (
+          {item.flipbookSrc ? (
+            <div className="overflow-hidden rounded-[18px] border-[3px] border-[#6fa6dc] bg-white shadow-[0_22px_60px_rgba(17,34,58,0.3)]">
+              <div className="flex h-[38px] items-center justify-between bg-[#84b2df] px-4">
+                <div className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-full bg-[#ff6156]" />
+                  <span className="h-3 w-3 rounded-full bg-[#ffc941]" />
+                  <span className="h-3 w-3 rounded-full bg-[#56ca58]" />
+                </div>
+                <p className="font-hand text-[13px] text-white">
+                  {item.documentTitle ?? item.label}
+                </p>
+                <span className="w-[44px]" />
+              </div>
+              <div className="bg-[#edf5ff] p-3 sm:p-4">
+                <ComicFlipbookViewer
+                  src={item.flipbookSrc}
+                  title={item.documentTitle ?? item.label}
+                />
+              </div>
+            </div>
+          ) : item.documentSrc ? (
             <div className="overflow-hidden rounded-[18px] border-[3px] border-[#6fa6dc] bg-white shadow-[0_22px_60px_rgba(17,34,58,0.3)]">
               <div className="flex h-[38px] items-center justify-between bg-[#84b2df] px-4">
                 <div className="flex items-center gap-2">
@@ -837,7 +880,7 @@ function PreviewOverlay({
           )}
         </div>
 
-        {item.documentSrc ? null : (
+        {item.documentSrc || item.flipbookSrc ? null : (
           <p className="font-hand text-center text-[14px] text-white">
             {item.label}
           </p>
@@ -860,7 +903,7 @@ export default function ProjectsContent() {
 
     setSelectedItemId(item.id);
 
-    if (item.media || item.documentSrc) {
+    if (item.media || item.documentSrc || item.flipbookSrc) {
       setActivePreview(item);
     }
   }

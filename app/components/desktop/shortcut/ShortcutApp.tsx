@@ -2,11 +2,12 @@ import Image from "next/image";
 import DesktopWindow from "../DesktopWindow";
 import {
   desktopShortcuts,
-  shortcutTextDocuments,
+  shortcutDocuments,
   shortcutWindowContents,
   shortcutWindowDefinitions,
 } from "../data";
 import type {
+  ShortcutDocument,
   DesktopWindowUiState,
   Position,
   ShortcutKind,
@@ -15,13 +16,13 @@ import type {
 
 type ShortcutAppProps = {
   activeShortcutId: string | null;
-  activeShortcutTextDocumentId: string | null;
+  activeShortcutDocumentId: string | null;
   positions: Record<string, Position>;
   sizes: Record<string, { width: number; height: number }>;
   order: string[];
   windowStates: Record<string, DesktopWindowUiState>;
   draggingWindowId: string | null;
-  onOpenTextDocument: (documentId: string) => void;
+  onOpenDocument: (documentId: string) => void;
   onWindowDragStart: (
     id: string,
     event: React.PointerEvent<HTMLDivElement>,
@@ -67,17 +68,17 @@ function ShortcutItemIcon({ kind }: { kind: ShortcutKind }) {
 
 function ShortcutWindowItemView({
   item,
-  onOpenTextDocument,
+  onOpenDocument,
 }: {
   item: ShortcutWindowItem;
-  onOpenTextDocument: (documentId: string) => void;
+  onOpenDocument: (documentId: string) => void;
 }) {
   return (
     <button
       type="button"
       onClick={() => {
         if (item.kind === "file" && item.documentId) {
-          onOpenTextDocument(item.documentId);
+          onOpenDocument(item.documentId);
         }
       }}
       className="font-hand flex w-[96px] flex-col items-center gap-1 text-center text-[11px] leading-5 text-black transition hover:-translate-y-0.5"
@@ -88,15 +89,75 @@ function ShortcutWindowItemView({
   );
 }
 
+function ShortcutDocumentView({
+  document,
+  title,
+}: {
+  document: ShortcutDocument;
+  title: string;
+}) {
+  if (document.kind === "pdf") {
+    return (
+      <div className="h-full bg-[#edf5ff] p-3 sm:p-4">
+        <div className="mb-3 rounded-[14px] border border-[#d4e4f7] bg-white px-3 py-2">
+          <p className="font-hand text-[12px] text-[#1a5ea9]">pdf viewer</p>
+          <p className="font-ui text-[11px] text-[#5f7ba1]">
+            scroll through the world file right here in the portfolio
+          </p>
+        </div>
+
+        <div className="overflow-hidden rounded-[14px] border border-[#d4e4f7] bg-white">
+          <embed
+            src={document.documentSrc}
+            type="application/pdf"
+            aria-label={title}
+            className="h-[68vh] min-h-[420px] w-full bg-white"
+          />
+          <object
+            data={document.documentSrc}
+            type="application/pdf"
+            aria-label={title}
+            className="hidden"
+          >
+            <div className="flex min-h-[320px] items-center justify-center bg-[#f7fbff] p-6 text-center">
+              <div>
+                <p className="font-hand text-[14px] text-[#1a5ea9]">
+                  this pdf couldn&apos;t render here.
+                </p>
+                <p className="font-ui mt-2 text-[12px] text-[#5f7ba1]">
+                  try another browser if the viewer still refuses to load.
+                </p>
+              </div>
+            </div>
+          </object>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-full overflow-y-auto bg-[#fffaf6] px-5 py-5">
+      <article className="mx-auto max-w-[25rem]">
+        <h2 className="font-hand mb-7 text-[23px] leading-none text-black">
+          so about ide.a
+        </h2>
+        <pre className="font-hand whitespace-pre-wrap text-[13px] leading-[1.55] tracking-[0.01em] text-black">
+          {document.content.replace(/^so about ide\.a\n\n/, "")}
+        </pre>
+      </article>
+    </div>
+  );
+}
+
 export default function ShortcutApp({
   activeShortcutId,
-  activeShortcutTextDocumentId,
+  activeShortcutDocumentId,
   positions,
   sizes,
   order,
   windowStates,
   draggingWindowId,
-  onOpenTextDocument,
+  onOpenDocument,
   onWindowDragStart,
   onWindowResizeStart,
   onWindowFocus,
@@ -127,8 +188,8 @@ export default function ShortcutApp({
       title: shortcut?.label ?? mainWindowDef.title,
       items: [],
     };
-  const activeTextDocument = activeShortcutTextDocumentId
-    ? shortcutTextDocuments[activeShortcutTextDocumentId] ?? null
+  const activeDocument = activeShortcutDocumentId
+    ? shortcutDocuments[activeShortcutDocumentId] ?? null
     : null;
 
   return (
@@ -167,17 +228,17 @@ export default function ShortcutApp({
               <ShortcutWindowItemView
                 key={item.id}
                 item={item}
-                onOpenTextDocument={onOpenTextDocument}
+                onOpenDocument={onOpenDocument}
               />
             ))}
           </div>
         </div>
       </DesktopWindow>
 
-      {activeTextDocument && textState.isOpen && !textState.isMinimized ? (
+      {activeDocument && textState.isOpen && !textState.isMinimized ? (
         <DesktopWindow
-          title={activeTextDocument.title}
-          theme={textWindowDef.theme}
+          title={activeDocument.title}
+          theme={activeDocument.kind === "pdf" ? "blue" : textWindowDef.theme}
           zIndex={zIndexFor(order, textWindowDef.id)}
           isDragging={draggingWindowId === textWindowDef.id}
           isMaximized={textState.isMaximized}
@@ -194,10 +255,10 @@ export default function ShortcutApp({
           style={
             textState.isMaximized
               ? {
-                  left: "16%",
-                  top: "14%",
-                  width: "54%",
-                  height: "46%",
+                  left: activeDocument.kind === "pdf" ? "8%" : "16%",
+                  top: activeDocument.kind === "pdf" ? "8%" : "14%",
+                  width: activeDocument.kind === "pdf" ? "80%" : "54%",
+                  height: activeDocument.kind === "pdf" ? "80%" : "46%",
                 }
               : {
                   left: `${textPosition.x}%`,
@@ -207,16 +268,10 @@ export default function ShortcutApp({
                 }
           }
         >
-          <div className="h-full overflow-y-auto bg-[#fffaf6] px-5 py-5">
-            <article className="mx-auto max-w-[25rem]">
-              <h2 className="font-hand mb-7 text-[23px] leading-none text-black">
-                so about ide.a
-              </h2>
-              <pre className="font-hand whitespace-pre-wrap text-[13px] leading-[1.55] tracking-[0.01em] text-black">
-                {activeTextDocument.content.replace(/^so about ide\.a\n\n/, "")}
-              </pre>
-            </article>
-          </div>
+          <ShortcutDocumentView
+            document={activeDocument}
+            title={activeDocument.title}
+          />
         </DesktopWindow>
       ) : null}
     </>

@@ -16,6 +16,7 @@ import {
   linksWindowDefinitions,
   noteItems,
   projectsWindowDefinitions,
+  shortcutDocuments,
   shortcutExternalLinks,
   shortcutWindowDefinitions,
   stickyNotePosition,
@@ -129,7 +130,7 @@ export default function DesktopScene() {
   const [dragging, setDragging] = useState<DragState | null>(null);
   const [activeDockItemId, setActiveDockItemId] = useState<string | null>(null);
   const [activeShortcutId, setActiveShortcutId] = useState<string | null>(null);
-  const [activeShortcutTextDocumentId, setActiveShortcutTextDocumentId] = useState<
+  const [activeShortcutDocumentId, setActiveShortcutDocumentId] = useState<
     string | null
   >(null);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
@@ -524,7 +525,7 @@ export default function DesktopScene() {
     }
 
     setActiveShortcutId(id);
-    setActiveShortcutTextDocumentId(null);
+    setActiveShortcutDocumentId(null);
     setActiveDockItemId(null);
     setWindowUiState((current) => {
       const nextState = { ...current };
@@ -562,7 +563,7 @@ export default function DesktopScene() {
 
     setActiveDockItemId(id);
     setActiveShortcutId(null);
-    setActiveShortcutTextDocumentId(null);
+    setActiveShortcutDocumentId(null);
     setWindowUiState((current) => {
       const nextState = { ...current };
 
@@ -595,11 +596,11 @@ export default function DesktopScene() {
   function handleWindowClose(id: string) {
     if (id === "shortcut-main") {
       setActiveShortcutId(null);
-      setActiveShortcutTextDocumentId(null);
+      setActiveShortcutDocumentId(null);
     }
 
     if (id === "shortcut-text") {
-      setActiveShortcutTextDocumentId(null);
+      setActiveShortcutDocumentId(null);
     }
 
     setWindowUiState((current) => ({
@@ -657,7 +658,7 @@ export default function DesktopScene() {
     });
     setActiveDockItemId(null);
     setActiveShortcutId(null);
-    setActiveShortcutTextDocumentId(null);
+    setActiveShortcutDocumentId(null);
     shortcutDragRef.current = null;
     draggingRef.current = null;
     setDragging(null);
@@ -724,8 +725,29 @@ export default function DesktopScene() {
               ? "contact"
               : null;
 
-  function handleOpenShortcutTextDocument(documentId: string) {
-    setActiveShortcutTextDocumentId(documentId);
+  function handleOpenShortcutDocument(documentId: string) {
+    const document = shortcutDocuments[documentId];
+    const textWindowDef = shortcutWindowDefinitions.find(
+      (windowDef) => windowDef.id === "shortcut-text",
+    );
+
+    setActiveShortcutDocumentId(documentId);
+    if (document && textWindowDef) {
+      const nextPosition =
+        document.kind === "pdf" ? { x: 16, y: 8 } : textWindowDef.position;
+      const nextSize =
+        document.kind === "pdf" ? { width: 68, height: 76 } : textWindowDef.size;
+
+      setWindowPositions((current) => ({
+        ...current,
+        "shortcut-text": nextPosition,
+      }));
+      setWindowSizes((current) => ({
+        ...current,
+        "shortcut-text": nextSize,
+      }));
+    }
+
     setWindowUiState((current) => ({
       ...current,
       "shortcut-text": {
@@ -904,7 +926,7 @@ export default function DesktopScene() {
 
           <ShortcutApp
             activeShortcutId={activeShortcutId}
-            activeShortcutTextDocumentId={activeShortcutTextDocumentId}
+            activeShortcutDocumentId={activeShortcutDocumentId}
             positions={windowPositions}
             sizes={windowSizes}
             order={windowOrder}
@@ -912,7 +934,7 @@ export default function DesktopScene() {
             draggingWindowId={
               dragging?.type === "window" ? dragging.id : null
             }
-            onOpenTextDocument={handleOpenShortcutTextDocument}
+            onOpenDocument={handleOpenShortcutDocument}
             onWindowDragStart={startWindowDrag}
             onWindowResizeStart={startWindowResize}
             onWindowFocus={bringWindowToFront}

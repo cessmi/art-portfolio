@@ -8,7 +8,7 @@
   --blue: #1b5caa;
   --blue-soft: #dceeff;
   --pink: #e288c0;
-  --font-ui-family: var(--font-instrument-sans), "Instrument Sans", system-ui, sans-serif;
+  --font-ui-family: var(--font-instrument-serif), "Instrument Serif", system-ui, sans-serif;
   --font-mono-family: var(--font-geist-mono), "Geist Mono", "SFMono-Regular", monospace;
   --font-display-family:
     "Didot", "Bodoni 72", "Times New Roman",

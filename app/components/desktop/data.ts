@@ -3,7 +3,7 @@ import type {
   DesktopWindowDefinition,
   DockItem,
   Position,
-  ShortcutTextDocument,
+  ShortcutDocument,
   ShortcutWindowItem,
 } from "./types";
 
@@ -30,7 +30,7 @@ export const desktopShortcuts: DesktopShortcut[] = [
   },
   {
     id: "world-of-fotum",
-    label: "World of Fotum",
+    label: "World of Fatum",
     kind: "folder",
     position: { x: 90, y: 11 },
   },
@@ -204,14 +204,104 @@ export const shortcutWindowContents: Record<
       { id: "aws-community-event-3", label: "Panelist Template.png", kind: "folder" },
     ],
   },
+  "world-of-fotum": {
+    title: "World of Fatum",
+    items: [
+      {
+        id: "world-of-fatum-main",
+        label: "World of Fatum.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-main",
+      },
+      {
+        id: "world-of-fatum-beastiary",
+        label: "Monster Beastiary.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-beastiary",
+      },
+      {
+        id: "world-of-fatum-preastres",
+        label: "Preastres.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-preastres",
+      },
+      {
+        id: "world-of-fatum-lore",
+        label: "World Lore & Compendium.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-lore",
+      },
+      {
+        id: "world-of-fatum-vvmi",
+        label: "Vain, Valiant, and Very Much Inlove.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-vvmi",
+      },
+      {
+        id: "world-of-fatum-crown",
+        label: "Crown Of Threads.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-crown",
+      },
+      {
+        id: "world-of-fatum-codex",
+        label: "Codex Threadica.pdf",
+        kind: "file",
+        documentId: "world-of-fatum-codex",
+      },
+    ],
+  },
 };
 
-export const shortcutTextDocuments: Record<string, ShortcutTextDocument> = {
+export const shortcutDocuments: Record<string, ShortcutDocument> = {
   "idea-txt": {
     id: "idea-txt",
     title: "what.txt",
+    kind: "text",
     content:
       "so about ide.a\n\nbasically i made a lot of projects in this club. most of them are the reason of my lack of sleep and frequent cramming due to announcements of events being literally so abrupt. however helping on building the visual identity of the club was fun especially since im one of the founding members of the club. i am rather grateful for the artistic opportunities this club has provided me as it really made me used to rushed projects and to think critically and mindfully.",
+  },
+  "world-of-fatum-main": {
+    id: "world-of-fatum-main",
+    title: "World of Fatum.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/world-of-fatum.pdf",
+  },
+  "world-of-fatum-beastiary": {
+    id: "world-of-fatum-beastiary",
+    title: "Monster Beastiary.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/monster-beastiary.pdf",
+  },
+  "world-of-fatum-preastres": {
+    id: "world-of-fatum-preastres",
+    title: "Preastres.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/preastres.pdf",
+  },
+  "world-of-fatum-lore": {
+    id: "world-of-fatum-lore",
+    title: "World Lore & Compendium.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/world-lore-and-compendium.pdf",
+  },
+  "world-of-fatum-vvmi": {
+    id: "world-of-fatum-vvmi",
+    title: "Vain, Valiant, and Very Much Inlove.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/vain-valiant-and-very-much-inlove.pdf",
+  },
+  "world-of-fatum-crown": {
+    id: "world-of-fatum-crown",
+    title: "Crown Of Threads.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/crown-of-threads.pdf",
+  },
+  "world-of-fatum-codex": {
+    id: "world-of-fatum-codex",
+    title: "Codex Threadica.pdf",
+    kind: "pdf",
+    documentSrc: "/pdfs/world-of-fatum/codex-threadica.pdf",
   },
 };
 

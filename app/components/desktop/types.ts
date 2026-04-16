@@ -19,11 +19,19 @@ export type ShortcutWindowItem = {
   documentId?: string;
 };
 
-export type ShortcutTextDocument = {
+export type ShortcutDocument = {
   id: string;
   title: string;
-  content: string;
-};
+} & (
+  | {
+      kind: "text";
+      content: string;
+    }
+  | {
+      kind: "pdf";
+      documentSrc: string;
+    }
+);
 
 export type DockItem = {
   id: string;
