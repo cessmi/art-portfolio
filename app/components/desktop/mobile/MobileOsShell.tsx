@@ -402,25 +402,20 @@ export default function MobileOsShell({
     onCloseApp();
   }
 
-  function handleHeaderPointerDown(
-    event: React.PointerEvent<HTMLDivElement>,
-  ) {
-    headerPullStartRef.current = event.clientY;
-    event.currentTarget.setPointerCapture?.(event.pointerId);
+  function startHeaderPull(clientY: number) {
+    headerPullStartRef.current = clientY;
   }
 
-  function handleHeaderPointerMove(
-    event: React.PointerEvent<HTMLDivElement>,
-  ) {
+  function updateHeaderPull(clientY: number) {
     if (headerPullStartRef.current === null) {
       return;
     }
 
-    const delta = Math.max(0, event.clientY - headerPullStartRef.current);
+    const delta = Math.max(0, clientY - headerPullStartRef.current);
     setHeaderPullOffset(Math.min(delta, 88));
   }
 
-  function handleHeaderPointerEnd() {
+  function finishHeaderPull() {
     if (headerPullStartRef.current === null) {
       return;
     }
@@ -431,6 +426,47 @@ export default function MobileOsShell({
 
     headerPullStartRef.current = null;
     setHeaderPullOffset(0);
+  }
+
+  function handleHeaderPointerDown(
+    event: React.PointerEvent<HTMLDivElement>,
+  ) {
+    startHeaderPull(event.clientY);
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }
+
+  function handleHeaderPointerMove(
+    event: React.PointerEvent<HTMLDivElement>,
+  ) {
+    updateHeaderPull(event.clientY);
+  }
+
+  function handleHeaderTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    const touch = event.touches[0];
+
+    if (!touch) {
+      return;
+    }
+
+    startHeaderPull(touch.clientY);
+  }
+
+  function handleHeaderTouchMove(event: React.TouchEvent<HTMLDivElement>) {
+    const touch = event.touches[0];
+
+    if (!touch) {
+      return;
+    }
+
+    updateHeaderPull(touch.clientY);
+
+    if (headerPullStartRef.current !== null) {
+      event.preventDefault();
+    }
+  }
+
+  function handleHeaderTouchEnd() {
+    finishHeaderPull();
   }
 
   const trayRevealOffset = musicTrayOpen ? 136 : headerPullOffset;
@@ -546,11 +582,14 @@ export default function MobileOsShell({
         </div>
 
         <div
-          className="mt-2 flex items-center justify-between gap-3 overflow-hidden rounded-full border border-[#76afe8] bg-[#84b2df] px-3 py-2 text-[10px] text-[#24588f] shadow-[0_10px_24px_rgba(84,140,202,0.18)]"
+          className="mt-2 flex touch-none select-none items-center justify-between gap-3 overflow-hidden rounded-full border border-[#76afe8] bg-[#84b2df] px-3 py-2 text-[10px] text-[#24588f] shadow-[0_10px_24px_rgba(84,140,202,0.18)]"
           onPointerDown={handleHeaderPointerDown}
           onPointerMove={handleHeaderPointerMove}
-          onPointerUp={handleHeaderPointerEnd}
-          onPointerCancel={handleHeaderPointerEnd}
+          onPointerUp={finishHeaderPull}
+          onPointerCancel={finishHeaderPull}
+          onTouchStart={handleHeaderTouchStart}
+          onTouchMove={handleHeaderTouchMove}
+          onTouchEnd={handleHeaderTouchEnd}
         >
           <div className="flex min-w-0 items-center gap-3 overflow-x-auto whitespace-nowrap">
             <div className="flex shrink-0 items-center gap-1.5">
@@ -585,6 +624,18 @@ export default function MobileOsShell({
             {formatDate(now)}
           </span>
         </div>
+
+        {!musicTrayOpen ? (
+          <div className="mt-1 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setMusicTrayOpen(true)}
+              className="font-hand rounded-full bg-white/45 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-[#5b84b3] shadow-[0_8px_18px_rgba(75,113,166,0.1)] backdrop-blur"
+            >
+              slide down for music
+            </button>
+          </div>
+        ) : null}
 
         <div
           className={`overflow-hidden transition-[max-height,opacity,margin,transform] duration-300 ${
