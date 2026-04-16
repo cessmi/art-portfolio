@@ -586,7 +586,7 @@ const projectSections: ProjectSection[] = [
         tileClassName: "aspect-[16/10]",
         media: {
           kind: "image",
-          src: "/images/graphic-design/aws-panel-discussion-template.png",
+          src: "/images/graphic-design/aws-panel-discussion-template.jpg",
           alt: "AWS panel discussion template",
         },
       },

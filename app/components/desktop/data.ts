@@ -475,9 +475,9 @@ export const shortcutDocuments: Record<string, ShortcutDocument> = {
   },
   "aws-panel-template": {
     id: "aws-panel-template",
-    title: "AWS Panel Discussion Template.png",
+    title: "AWS Panel Discussion Template.jpg",
     kind: "image",
-    imageSrc: "/images/graphic-design/aws-panel-discussion-template.png",
+    imageSrc: "/images/graphic-design/aws-panel-discussion-template.jpg",
     imageAlt: "AWS panel discussion template",
   },
   "aws-txt": {
