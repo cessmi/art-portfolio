@@ -22,6 +22,10 @@ export type ShortcutWindowItem = {
 export type ShortcutDocument = {
   id: string;
   title: string;
+  companionTitle?: string;
+  companionText?: string;
+  companionHref?: string;
+  companionLabel?: string;
 } & (
   | {
       kind: "text";
@@ -30,6 +34,20 @@ export type ShortcutDocument = {
   | {
       kind: "pdf";
       documentSrc: string;
+    }
+  | {
+      kind: "image";
+      imageSrc: string;
+      imageAlt: string;
+    }
+  | {
+      kind: "flipbook";
+      documentSrc: string;
+    }
+  | {
+      kind: "video";
+      videoSrc: string;
+      posterSrc?: string;
     }
 );
 

@@ -367,6 +367,32 @@ const projectSections = [
           alt: "Gahilak na Anghel illustration",
         },
       },
+      {
+        id: "illustration-21",
+        label: "Girl with a Pearl Earring",
+        size: "half",
+        previewFit: "contain",
+        backgroundClassName: "bg-[#0f0d0d]",
+        tileClassName: "col-span-1 row-span-2 sm:row-span-3",
+        media: {
+          kind: "image",
+          src: "/images/illustrations/girl-with-a-pearl-earring.jpg",
+          alt: "Girl with a Pearl Earring study illustration",
+        },
+      },
+      {
+        id: "illustration-22",
+        label: "Superman",
+        size: "half",
+        previewFit: "contain",
+        backgroundClassName: "bg-[#f8f7f3]",
+        tileClassName: "col-span-1 row-span-2 sm:row-span-3",
+        media: {
+          kind: "image",
+          src: "/images/illustrations/superman.jpg",
+          alt: "Superman portrait illustration",
+        },
+      },
     ] as ProjectPlaceholder[],
   },
   {

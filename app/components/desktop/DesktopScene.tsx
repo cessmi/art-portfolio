@@ -527,6 +527,18 @@ export default function DesktopScene() {
     setActiveShortcutId(id);
     setActiveShortcutDocumentId(null);
     setActiveDockItemId(null);
+    setWindowPositions((current) => ({
+      ...current,
+      "shortcut-main":
+        id === "dont-look" ? { x: 14, y: 7 } : current["shortcut-main"],
+    }));
+    setWindowSizes((current) => ({
+      ...current,
+      "shortcut-main":
+        id === "dont-look"
+          ? { width: 74, height: 74 }
+          : current["shortcut-main"],
+    }));
     setWindowUiState((current) => {
       const nextState = { ...current };
 
@@ -734,9 +746,17 @@ export default function DesktopScene() {
     setActiveShortcutDocumentId(documentId);
     if (document && textWindowDef) {
       const nextPosition =
-        document.kind === "pdf" ? { x: 16, y: 8 } : textWindowDef.position;
+        document.kind === "text"
+          ? textWindowDef.position
+          : document.kind === "image"
+            ? { x: 18, y: 10 }
+            : { x: 12, y: 7 };
       const nextSize =
-        document.kind === "pdf" ? { width: 68, height: 76 } : textWindowDef.size;
+        document.kind === "text"
+          ? textWindowDef.size
+          : document.kind === "image"
+            ? { width: 46, height: 66 }
+            : { width: 72, height: 78 };
 
       setWindowPositions((current) => ({
         ...current,
@@ -818,9 +838,11 @@ export default function DesktopScene() {
       <MobileOsShell
         activeAppId={activeMobileAppId}
         activeShortcutId={activeShortcutId}
+        isMusicPlaying={isMusicPlaying}
         onOpenApp={handleOpenDockItem}
         onOpenShortcut={handleOpenShortcut}
         onCloseApp={closeAllWindows}
+        onToggleMusic={toggleMusic}
       />
 
       <section className="desktop-shell relative hidden h-screen min-h-[760px] w-full overflow-hidden bg-[#fcfcfd] lg:block">

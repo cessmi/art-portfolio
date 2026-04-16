@@ -11,7 +11,6 @@ import {
   type ReactNode,
   type Ref,
 } from "react";
-import { getDocument } from "pdfjs-dist/webpack.mjs";
 
 type HtmlFlipBookProps = {
   children: ReactNode;
@@ -92,6 +91,7 @@ async function loadComicPages(src: string) {
   }
 
   const promise = (async () => {
+    const { getDocument } = await import("pdfjs-dist/webpack.mjs");
     const loadingTask = getDocument(src);
     const pdf = await loadingTask.promise;
 
