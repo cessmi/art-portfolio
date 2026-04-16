@@ -66,7 +66,13 @@ type ProjectPlaceholder = {
   tileClassName?: string;
 };
 
-const projectSections = [
+type ProjectSection = {
+  title: string;
+  items: ProjectPlaceholder[];
+  gridClassName?: string;
+};
+
+const projectSections: ProjectSection[] = [
   {
     title: "Animatic Videos",
     items: [
@@ -764,6 +770,8 @@ function PreviewOverlay({
     return null;
   }
 
+  const media = item.media;
+
   return createPortal(
     <div
       className="fixed inset-0 z-[120] overflow-y-auto bg-black/55 p-6 backdrop-blur-[2px]"
@@ -884,26 +892,26 @@ function PreviewOverlay({
                 </div>
               </div>
             </div>
-          ) : item.media.kind === "video" ? (
+          ) : media?.kind === "video" ? (
             <video
-              src={item.media.src}
-              poster={item.media.poster}
+              src={media.src}
+              poster={media.poster}
               controls
               autoPlay
               playsInline
               className="max-h-[72vh] w-full bg-black object-contain"
             />
-          ) : (
+          ) : media ? (
             <div className="relative h-[72vh] w-full bg-black/80">
               <Image
-                src={item.media.src}
-                alt={item.media.alt}
+                src={media.src}
+                alt={media.alt}
                 fill
                 sizes="90vw"
                 className="object-contain"
               />
             </div>
-          )}
+          ) : null}
         </div>
 
         {item.documentSrc || item.flipbookSrc ? null : (

@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type JSX,
   type ReactNode,
   type Ref,
 } from "react";
@@ -114,6 +115,7 @@ async function loadComicPages(src: string) {
         canvas.height = Math.ceil(viewport.height);
 
         await page.render({
+          canvas,
           canvasContext: context,
           viewport,
         }).promise;
