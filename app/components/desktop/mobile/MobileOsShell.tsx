@@ -60,6 +60,17 @@ function chunkIntoPages<T>(items: T[], pageSize: number) {
   return pages;
 }
 
+function clampSinglePageAdvance(
+  nextPage: number,
+  currentPage: number,
+  maxPage: number,
+) {
+  return Math.max(
+    0,
+    Math.min(maxPage, Math.max(currentPage - 1, Math.min(nextPage, currentPage + 1))),
+  );
+}
+
 function ShortcutItemIcon({ kind }: { kind: ShortcutKind }) {
   if (kind === "file") {
     return (
@@ -217,6 +228,12 @@ function MobileShortcutContent({
   onPageChange: (page: number) => void;
 }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const settledPageRef = useRef(pageIndex);
+  const scrollTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    settledPageRef.current = pageIndex;
+  }, [pageIndex]);
 
   useEffect(() => {
     if (!scrollerRef.current) {
@@ -228,6 +245,14 @@ function MobileShortcutContent({
       behavior: "smooth",
     });
   }, [pageIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current !== null) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   if (!shortcutId) {
     return null;
@@ -278,8 +303,28 @@ function MobileShortcutContent({
           ref={scrollerRef}
           onScroll={(event) => {
             const target = event.currentTarget;
-            const nextPage = Math.round(target.scrollLeft / target.clientWidth);
-            onPageChange(nextPage);
+            if (scrollTimeoutRef.current !== null) {
+              window.clearTimeout(scrollTimeoutRef.current);
+            }
+
+            scrollTimeoutRef.current = window.setTimeout(() => {
+              const rawPage = Math.round(target.scrollLeft / target.clientWidth);
+              const nextPage = clampSinglePageAdvance(
+                rawPage,
+                settledPageRef.current,
+                pages.length - 1,
+              );
+
+              settledPageRef.current = nextPage;
+              onPageChange(nextPage);
+
+              if (nextPage !== rawPage) {
+                target.scrollTo({
+                  left: nextPage * target.clientWidth,
+                  behavior: "smooth",
+                });
+              }
+            }, 90);
           }}
           className="mt-4 flex snap-x snap-mandatory gap-0 overflow-x-auto overflow-y-hidden scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]"
         >
@@ -323,6 +368,8 @@ export default function MobileOsShell({
 }: MobileOsShellProps) {
   const homeScrollerRef = useRef<HTMLDivElement>(null);
   const headerPullStartRef = useRef<number | null>(null);
+  const homeSettledPageRef = useRef(0);
+  const homeScrollTimeoutRef = useRef<number | null>(null);
   const [now, setNow] = useState(() => new Date());
   const [isNoticeVisible, setIsNoticeVisible] = useState(true);
   const [isTodoVisible, setIsTodoVisible] = useState(true);
@@ -345,6 +392,10 @@ export default function MobileOsShell({
   }, []);
 
   useEffect(() => {
+    homeSettledPageRef.current = homePageIndex;
+  }, [homePageIndex]);
+
+  useEffect(() => {
     if (!homeScrollerRef.current) {
       return;
     }
@@ -354,6 +405,14 @@ export default function MobileOsShell({
       behavior: "smooth",
     });
   }, [homePageIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (homeScrollTimeoutRef.current !== null) {
+        window.clearTimeout(homeScrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const allTiles: MobileTile[] = desktopShortcuts
     .filter((shortcut) => shortcut.kind !== "trash")
@@ -742,8 +801,28 @@ export default function MobileOsShell({
                 ref={homeScrollerRef}
                 onScroll={(event) => {
                   const target = event.currentTarget;
-                  const nextPage = Math.round(target.scrollLeft / target.clientWidth);
-                  setHomePageIndex(nextPage);
+                  if (homeScrollTimeoutRef.current !== null) {
+                    window.clearTimeout(homeScrollTimeoutRef.current);
+                  }
+
+                  homeScrollTimeoutRef.current = window.setTimeout(() => {
+                    const rawPage = Math.round(target.scrollLeft / target.clientWidth);
+                    const nextPage = clampSinglePageAdvance(
+                      rawPage,
+                      homeSettledPageRef.current,
+                      mobilePageCount - 1,
+                    );
+
+                    homeSettledPageRef.current = nextPage;
+                    setHomePageIndex(nextPage);
+
+                    if (nextPage !== rawPage) {
+                      target.scrollTo({
+                        left: nextPage * target.clientWidth,
+                        behavior: "smooth",
+                      });
+                    }
+                  }, 90);
                 }}
                 className="flex flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]"
               >
