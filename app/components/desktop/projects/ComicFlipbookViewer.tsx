@@ -300,7 +300,7 @@ export default function ComicFlipbookViewer({
                 rendering comic pages...
               </p>
               <p className="font-ui mt-2 text-[13px] leading-6 text-[#5f7ba1]">
-                giving your PDF a book-like glow up for the portfolio.
+                giving the PDF a book-like glow up for the portfolio.
               </p>
             </div>
           </div>

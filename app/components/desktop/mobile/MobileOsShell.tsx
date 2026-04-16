@@ -325,6 +325,7 @@ export default function MobileOsShell({
   const headerPullStartRef = useRef<number | null>(null);
   const [now, setNow] = useState(() => new Date());
   const [isNoticeVisible, setIsNoticeVisible] = useState(true);
+  const [isTodoVisible, setIsTodoVisible] = useState(true);
   const [homePageIndex, setHomePageIndex] = useState(0);
   const [folderPageIndex, setFolderPageIndex] = useState(0);
   const [musicTrayOpen, setMusicTrayOpen] = useState(false);
@@ -364,7 +365,8 @@ export default function MobileOsShell({
       shortcutId: shortcut.id,
     }));
 
-  const homePages = chunkIntoPages(allTiles, 6);
+  const appPages = chunkIntoPages(allTiles, 6);
+  const mobilePageCount = 1 + appPages.length;
   const currentShortcutDocument = activeShortcutDocumentId
     ? shortcutDocuments[activeShortcutDocumentId] ?? null
     : null;
@@ -669,7 +671,7 @@ export default function MobileOsShell({
                 </p>
                 <p className="font-ui mt-1 text-[12px] leading-5 text-[#5f7ba1]">
                   {isMusicPlaying
-                    ? "bgm is on. your little phone soundtrack is playing."
+                    ? "bgm is on. the soundtrack is playing."
                     : "pull down for a tiny surprise and tap to start the bgm."}
                 </p>
               </div>
@@ -735,52 +737,6 @@ export default function MobileOsShell({
               </p>
             </div>
 
-            {isNoticeVisible ? (
-              <div className="mt-4 rounded-[24px] border border-white/70 bg-white/72 px-4 py-4 shadow-[0_16px_40px_rgba(75,113,166,0.16)] backdrop-blur-xl">
-                <div className="flex items-start gap-3">
-                  <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-[14px] bg-[#fff1f9]">
-                    <Image
-                      src="/icons/about-me-icon.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className="h-5 w-5 object-contain"
-                    />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="font-hand text-[12px] uppercase tracking-[0.14em] text-[#2c649c]">
-                        mobile notice
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setIsNoticeVisible(false)}
-                        className="font-hand rounded-full bg-[#eef6ff] px-2.5 py-1 text-[10px] text-[#4672a0]"
-                      >
-                        close
-                      </button>
-                    </div>
-                    <p className="font-hand mt-2 text-[13px] leading-5 text-[#2f5078]">
-                      hey, this site is way better on desktop. the mobile view is
-                      still in the works since i coded this in one night, but i
-                      still wanted it to feel playful and usable.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-
-            <div className="mt-4 rounded-[28px] border border-white/70 bg-white/50 px-4 py-4 shadow-[0_16px_40px_rgba(75,113,166,0.14)] backdrop-blur-xl">
-              <p className="font-hand text-[12px] uppercase tracking-[0.16em] text-[#2c649c]">
-                to do
-              </p>
-              <div className="font-hand mt-3 space-y-1 text-[14px] leading-5 text-[#2f5078]">
-                {noteItems.slice(0, 4).map((item) => (
-                  <p key={item}>• {item}</p>
-                ))}
-              </div>
-            </div>
-
             <div className="mt-5 flex min-h-0 flex-1 flex-col">
               <div
                 ref={homeScrollerRef}
@@ -791,31 +747,123 @@ export default function MobileOsShell({
                 }}
                 className="flex flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]"
               >
-                {homePages.map((page, index) => (
-                  <div key={index} className="min-w-full snap-start px-1">
-                    <div className="grid grid-cols-3 gap-x-3 gap-y-5">
-                      {page.map((tile) => (
+                <div className="min-w-full snap-start px-1">
+                  <div className="flex h-full flex-col overflow-hidden rounded-[32px] border border-white/65 bg-white/28 px-1 py-1 shadow-[0_16px_40px_rgba(75,113,166,0.1)] backdrop-blur-sm">
+                    <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-1 pb-2 pt-1">
+                      {isNoticeVisible ? (
+                        <div className="rounded-[24px] border border-white/70 bg-white/72 px-4 py-4 shadow-[0_16px_40px_rgba(75,113,166,0.16)] backdrop-blur-xl">
+                          <div className="flex items-start gap-3">
+                            <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-[14px] bg-[#fff1f9]">
+                              <Image
+                                src="/icons/about-me-icon.svg"
+                                alt=""
+                                width={20}
+                                height={20}
+                                className="h-5 w-5 object-contain"
+                              />
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-3">
+                                <p className="font-hand text-[12px] uppercase tracking-[0.14em] text-[#2c649c]">
+                                  mobile notice
+                                </p>
+                                <button
+                                  type="button"
+                                  onClick={() => setIsNoticeVisible(false)}
+                                  className="font-hand rounded-full bg-[#eef6ff] px-2.5 py-1 text-[10px] text-[#4672a0]"
+                                >
+                                  close
+                                </button>
+                              </div>
+                              <p className="font-hand mt-2 text-[13px] leading-5 text-[#2f5078]">
+                                hey, this site is way better on desktop. the mobile
+                                view is still in the works since i coded this in one
+                                night, but i still wanted it to feel playful and usable.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {isTodoVisible ? (
+                        <div className="rounded-[28px] border border-white/70 bg-white/50 px-4 py-4 shadow-[0_16px_40px_rgba(75,113,166,0.14)] backdrop-blur-xl">
+                          <div className="flex items-center justify-between gap-3">
+                            <p className="font-hand text-[12px] uppercase tracking-[0.16em] text-[#2c649c]">
+                              to do
+                            </p>
+                            <button
+                              type="button"
+                              onClick={() => setIsTodoVisible(false)}
+                              className="font-hand rounded-full bg-[#eef6ff] px-2.5 py-1 text-[10px] text-[#4672a0]"
+                            >
+                              close
+                            </button>
+                          </div>
+                          <div className="font-hand mt-3 space-y-1 text-[14px] leading-5 text-[#2f5078]">
+                            {noteItems.slice(0, 4).map((item) => (
+                              <p key={item}>• {item}</p>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
                         <button
-                          key={tile.id}
                           type="button"
-                          onClick={() =>
-                            tile.shortcutId &&
-                            handleOpenMobileShortcut(tile.shortcutId)
-                          }
-                          className="font-hand flex flex-col items-center gap-2 text-center text-[12px] text-[#17375e]"
+                          onClick={() => setIsTodoVisible(true)}
+                          className="font-hand w-full rounded-[22px] border border-dashed border-white/75 bg-white/35 px-4 py-3 text-[12px] uppercase tracking-[0.14em] text-[#5b84b3] shadow-[0_8px_18px_rgba(75,113,166,0.08)] backdrop-blur"
                         >
-                          <span className="grid h-[66px] w-[66px] place-items-center rounded-[20px] bg-white/70 shadow-[0_12px_30px_rgba(75,113,166,0.14)] backdrop-blur">
-                            <Image
-                              src={tile.iconSrc}
-                              alt=""
-                              width={44}
-                              height={44}
-                              className="h-11 w-11 object-contain"
-                            />
-                          </span>
-                          <span className="leading-4">{tile.label}</span>
+                          show to do list
                         </button>
-                      ))}
+                      )}
+
+                      <div className="rounded-[24px] border border-white/70 bg-white/40 px-4 py-4 text-center shadow-[0_16px_40px_rgba(75,113,166,0.1)] backdrop-blur-xl">
+                        <p className="font-hand text-[11px] uppercase tracking-[0.18em] text-[#6f97c3]">
+                          swipe for apps
+                        </p>
+                        <p className="font-ui mt-2 text-[12px] leading-5 text-[#4c6e92]">
+                          your folders live on the next screen so the layout feels
+                          more like a real phone home screen.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {appPages.map((page, index) => (
+                  <div key={index} className="min-w-full snap-start px-1">
+                    <div className="flex h-full flex-col rounded-[32px] border border-white/65 bg-white/28 px-4 py-5 shadow-[0_16px_40px_rgba(75,113,166,0.1)] backdrop-blur-sm">
+                      <div className="mb-4 flex items-center justify-between gap-3">
+                        <p className="font-hand text-[11px] uppercase tracking-[0.18em] text-[#6f97c3]">
+                          app screen {index + 1}
+                        </p>
+                        <p className="font-hand text-[10px] uppercase tracking-[0.14em] text-[#8db2da]">
+                          swipe
+                        </p>
+                      </div>
+
+                      <div className="grid flex-1 grid-cols-3 content-start gap-x-3 gap-y-5">
+                        {page.map((tile) => (
+                          <button
+                            key={tile.id}
+                            type="button"
+                            onClick={() =>
+                              tile.shortcutId &&
+                              handleOpenMobileShortcut(tile.shortcutId)
+                            }
+                            className="font-hand flex flex-col items-center gap-2 text-center text-[12px] text-[#17375e]"
+                          >
+                            <span className="grid h-[66px] w-[66px] place-items-center rounded-[20px] bg-white/70 shadow-[0_12px_30px_rgba(75,113,166,0.14)] backdrop-blur">
+                              <Image
+                                src={tile.iconSrc}
+                                alt=""
+                                width={44}
+                                height={44}
+                                className="h-11 w-11 object-contain"
+                              />
+                            </span>
+                            <span className="leading-4">{tile.label}</span>
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -823,10 +871,10 @@ export default function MobileOsShell({
 
               <div className="mt-4 space-y-2">
                 <PageDots
-                  pageCount={homePages.length}
+                  pageCount={mobilePageCount}
                   currentPage={homePageIndex}
                 />
-                {homePages.length > 1 ? (
+                {mobilePageCount > 1 ? (
                   <p className="font-hand text-center text-[11px] uppercase tracking-[0.12em] text-[#6f97c3]">
                     swipe to another app screen
                   </p>
