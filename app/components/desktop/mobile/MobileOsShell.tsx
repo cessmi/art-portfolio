@@ -820,8 +820,7 @@ export default function MobileOsShell({
                           swipe for apps
                         </p>
                         <p className="font-ui mt-2 text-[12px] leading-5 text-[#4c6e92]">
-                          your folders live on the next screen so the layout feels
-                          more like a real phone home screen.
+                          more folders live on the next screen!
                         </p>
                       </div>
                     </div>
