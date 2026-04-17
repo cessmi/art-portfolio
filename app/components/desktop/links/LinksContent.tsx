@@ -12,7 +12,7 @@ const socialLinks: SocialLink[] = [
   {
     id: "facebook",
     label: "Facebook",
-    href: "https://www.facebook.com/cess.yla.f/",
+    href: "https://www.facebook.com/share/1DaabCzgKh/",
     iconSrc: "/icons/facebook-icon.svg",
     iconClassName: "h-[72px] w-[72px] sm:h-[98px] sm:w-[98px]",
   },
