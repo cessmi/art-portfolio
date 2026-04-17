@@ -296,6 +296,12 @@ export const shortcutWindowContents: Record<
         documentId: "belen-photo-8",
       },
       {
+        id: "belen-photo-9",
+        label: "Camel Painting.jpeg",
+        kind: "file",
+        documentId: "belen-photo-9",
+      },
+      {
         id: "belen-txt",
         label: "Belen.txt",
         kind: "file",
@@ -542,6 +548,13 @@ export const shortcutDocuments: Record<string, ShortcutDocument> = {
     kind: "image",
     imageSrc: "/images/shortcut/belen/belen-village.jpeg",
     imageAlt: "Christmas village night photo",
+  },
+  "belen-photo-9": {
+    id: "belen-photo-9",
+    title: "Camel Painting.jpeg",
+    kind: "image",
+    imageSrc: "/images/shortcut/belen/camel-painting.jpeg",
+    imageAlt: "Hand-painted camel cutout for the Belen project",
   },
   "belen-txt": {
     id: "belen-txt",
