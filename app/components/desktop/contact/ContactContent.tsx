@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 const gmailComposeUrl =
-  "https://mail.google.com/mail/?view=cm&fs=1&to=borbajop@gmail.com";
+  "https://mail.google.com/mail/?view=cm&fs=1&to=princessmikaela.borbajo@gmail.com";
 
 export default function ContactContent() {
   return (
