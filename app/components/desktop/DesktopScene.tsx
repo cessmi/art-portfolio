@@ -748,13 +748,17 @@ export default function DesktopScene() {
       const nextPosition =
         document.kind === "text"
           ? textWindowDef.position
-          : document.kind === "image"
+          : document.kind === "image" && document.imageDisplay === "scroll"
+            ? { x: 12, y: 7 }
+            : document.kind === "image"
             ? { x: 18, y: 10 }
             : { x: 12, y: 7 };
       const nextSize =
         document.kind === "text"
           ? textWindowDef.size
-          : document.kind === "image"
+          : document.kind === "image" && document.imageDisplay === "scroll"
+            ? { width: 72, height: 78 }
+            : document.kind === "image"
             ? { width: 46, height: 66 }
             : { width: 72, height: 78 };
 

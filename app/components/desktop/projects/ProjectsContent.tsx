@@ -72,6 +72,8 @@ type ProjectSection = {
   gridClassName?: string;
 };
 
+const primarySectionTitle = "UI/UX";
+
 const projectSections: ProjectSection[] = [
   {
     title: "Animatic Videos",
@@ -655,6 +657,11 @@ const projectSections: ProjectSection[] = [
   },
 ] as const;
 
+const orderedProjectSections = [
+  ...projectSections.filter((section) => section.title === primarySectionTitle),
+  ...projectSections.filter((section) => section.title !== primarySectionTitle),
+];
+
 function Tag({ children }: { children: ReactNode }) {
   return (
     <span className="font-hand inline-flex rounded-[14px] border border-[#f39dcd] px-3 py-1.5 text-[12px] text-[#e68cc3] sm:px-4 sm:py-2 sm:text-[14px]">
@@ -971,7 +978,7 @@ export default function ProjectsContent() {
           </div>
 
           <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">
-            {projectSections.map((section) => (
+            {orderedProjectSections.map((section) => (
               <section key={section.title}>
                 <h3 className="font-serif text-[24px] text-[#151515] sm:text-[28px]">
                   {section.title}

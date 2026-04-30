@@ -183,6 +183,11 @@ export const projectItems: ProjectItem[] = [
 
 export const projectSections = [
   {
+    id: "ui-ux",
+    title: "UI/UX",
+    description: "Interfaces and flows built to feel cute, calm, and understandable.",
+  },
+  {
     id: "animatic-videos",
     title: "Animatic Videos",
     description: "Motion-first pieces for story pacing, boards, and scene planning.",
@@ -191,11 +196,6 @@ export const projectSections = [
     id: "illustration",
     title: "Illustration",
     description: "Character work, portraits, and soft visual experiments.",
-  },
-  {
-    id: "ui-ux",
-    title: "UI/UX",
-    description: "Interfaces and flows built to feel cute, calm, and understandable.",
   },
   {
     id: "graphic-design",

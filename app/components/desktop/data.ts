@@ -336,6 +336,18 @@ export const shortcutWindowContents: Record<
         documentId: "welllife-ui",
       },
       {
+        id: "welllife-case-study",
+        label: "WellLife CaseStudy.jpg",
+        kind: "file",
+        documentId: "welllife-case-study",
+      },
+      {
+        id: "welllife-figma",
+        label: "Case Study Figma",
+        kind: "folder",
+        href: "https://www.figma.com/proto/GoCVwXHsYcvcHiRN3emGnJ/WELLife-2025-Website-Rehaul--Copy-?node-id=664-1995&t=HOIxHcaARNICaZ1G-1&scaling=min-zoom&content-scaling=fixed&page-id=660%3A889",
+      },
+      {
         id: "welllife-txt",
         label: "WellLife.txt",
         kind: "file",
@@ -347,16 +359,28 @@ export const shortcutWindowContents: Record<
     title: "Zapac",
     items: [
       {
-        id: "zapac-ui",
-        label: "ZAPAC Full UI.pdf",
+        id: "zapac-case-study",
+        label: "ZAPAC CASE STUDY.jpg",
         kind: "file",
-        documentId: "zapac-ui",
+        documentId: "zapac-case-study",
+      },
+      {
+        id: "zapac-case-study-figma",
+        label: "Case Study Figma",
+        kind: "folder",
+        href: "https://www.figma.com/proto/KzrReoigwtGnBGgsw447bW/ZAPAC-APP?node-id=754-4752&t=bBFexYziG79IGi6y-8&scaling=contain&content-scaling=fixed&page-id=754%3A1549&hide-ui=1",
       },
       {
         id: "zapac-pdf",
         label: "Zapac.pdf",
         kind: "file",
         documentId: "zapac-pdf",
+      },
+      {
+        id: "zapac-prototype",
+        label: "ZAPAC Prototype",
+        kind: "folder",
+        href: "https://www.figma.com/proto/KzrReoigwtGnBGgsw447bW/ZAPAC-APP?node-id=14-19&t=rXXYVB3CmM8TC2yL-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=70%3A4238&show-proto-sidebar=1",
       },
       {
         id: "zapac-txt",
@@ -592,6 +616,16 @@ export const shortcutDocuments: Record<string, ShortcutDocument> = {
       "https://www.figma.com/proto/xRbPRvsklLenHHf1NvKF1D/WELLife-2025-Website-Rehaul?node-id=492-847&t=bB3jyE0zNlSA7mdX-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=492%3A847",
     companionLabel: "open prototype",
   },
+  "welllife-case-study": {
+    id: "welllife-case-study",
+    title: "WellLife CaseStudy.jpg",
+    kind: "image",
+    imageSrc: "/images/shortcut/welllife/welllife-case-study.jpg",
+    imageAlt: "WellLife case study presentation",
+    imageDisplay: "scroll",
+    imageWidth: 1400,
+    imageHeight: 17902,
+  },
   "welllife-txt": {
     id: "welllife-txt",
     title: "WellLife.txt",
@@ -611,12 +645,22 @@ export const shortcutDocuments: Record<string, ShortcutDocument> = {
     kind: "pdf",
     documentSrc: "/pdfs/zapac.pdf",
   },
+  "zapac-case-study": {
+    id: "zapac-case-study",
+    title: "ZAPAC CASE STUDY.jpg",
+    kind: "image",
+    imageSrc: "/images/shortcut/zapac/zapac-case-study.jpg",
+    imageAlt: "ZAPAC case study presentation",
+    imageDisplay: "scroll",
+    imageWidth: 1421,
+    imageHeight: 32768,
+  },
   "zapac-txt": {
     id: "zapac-txt",
     title: "Zapac.txt",
     kind: "text",
     content:
-      "ZAPAC is a mobile app we created as our thesis project to help commuters in Cebu figure out how to get from one place to another more easily. It acts as a commuting guide designed around real local transportation struggles, with the goal of making everyday travel feel less confusing and more accessible.\n\nThis project is very personal to me because it's something my team and I poured so much thought, care, and effort into. It was successfully defended in our Software Engineering course, where we were awarded Best Project and received the highest score of 99.\n\nI worked on ZAPAC as the leader, product owner, and main UI/UX designer of the team. I was also responsible for developing the app's visual identity, helping shape both the user experience and the overall look and feel of the product.",
+      "ZAPAC is a mobile app we created as our thesis project to help commuters in Cebu figure out how to get from one place to another more easily. It acts as a commuting guide designed around real local transportation struggles, with the goal of making everyday travel feel less confusing and more accessible.\n\nThis project is very personal to me because it's something my team and I poured so much thought, care, and effort into. It was successfully defended in our Software Engineering course, where we were awarded Best Project and received the highest score of 99.\n\nI worked on ZAPAC as the leader, product owner, and main UI/UX designer of the team. I was also responsible for developing the app's visual identity, helping shape both the user experience and the overall look and feel of the product.\n\nNote: the Figma prototype shows the old, original design for ZAPAC, which is why it looks different from the final app design.",
   },
   "gimi-presentation": {
     id: "gimi-presentation",

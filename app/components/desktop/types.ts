@@ -17,6 +17,7 @@ export type ShortcutWindowItem = {
   label: string;
   kind: ShortcutKind;
   documentId?: string;
+  href?: string;
 };
 
 export type ShortcutDocument = {
@@ -39,6 +40,9 @@ export type ShortcutDocument = {
       kind: "image";
       imageSrc: string;
       imageAlt: string;
+      imageDisplay?: "contain" | "scroll";
+      imageWidth?: number;
+      imageHeight?: number;
     }
   | {
       kind: "flipbook";

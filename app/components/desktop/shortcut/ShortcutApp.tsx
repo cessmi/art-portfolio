@@ -78,6 +78,11 @@ function ShortcutWindowItemView({
     <button
       type="button"
       onClick={() => {
+        if (item.href) {
+          window.open(item.href, "_blank", "noopener,noreferrer");
+          return;
+        }
+
         if (item.kind === "file" && item.documentId) {
           onOpenDocument(item.documentId);
         }
@@ -308,6 +313,23 @@ function ShortcutDocumentView({
   }
 
   if (document.kind === "image") {
+    if (document.imageDisplay === "scroll") {
+      return (
+        <div className="h-full overflow-auto bg-[#edf5ff] p-3 sm:p-4">
+          <div className="mx-auto w-full max-w-[980px] overflow-hidden rounded-[18px] border border-[#d4e4f7] bg-white p-2 shadow-[0_16px_35px_rgba(40,64,99,0.12)]">
+            <Image
+              src={document.imageSrc}
+              alt={document.imageAlt}
+              width={document.imageWidth ?? 1400}
+              height={document.imageHeight ?? 1800}
+              sizes="(max-width: 1024px) 92vw, 980px"
+              className="h-auto w-full rounded-[12px] bg-white object-contain"
+            />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="h-full overflow-auto bg-[#edf5ff] p-3 sm:p-4">
         <div className="h-full min-h-[320px] min-w-[320px] overflow-hidden rounded-[18px] border border-[#d4e4f7] bg-white shadow-[0_16px_35px_rgba(40,64,99,0.12)]">
