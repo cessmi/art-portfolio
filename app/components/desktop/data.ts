@@ -727,7 +727,7 @@ export const shortcutDocuments: Record<string, ShortcutDocument> = {
 };
 
 export const shortcutExternalLinks: Record<string, string> = {
-  resume: "/Resume-art.pdf",
+  resume: "/Princess_Mikaela_Borbajo_Resume.pdf",
 };
 
 export const allWindowDefinitions: DesktopWindowDefinition[] = [

@@ -32,6 +32,10 @@ export const developmentTags = [
   "Next.js",
   "JavaScript",
   "C#",
+  "Node.js",
+  "Tailwind",
+  "HTML/CSS",
+  "TypeScript",
 ] as const;
 
 export const projectItems: ProjectItem[] = [
