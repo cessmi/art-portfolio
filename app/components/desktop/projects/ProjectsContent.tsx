@@ -31,6 +31,7 @@ const toolTags = [
 
 const developmentTags = [
   "C++",
+  "Java",
   "React",
   "Python",
   "Next.Js",
@@ -75,6 +76,24 @@ type ProjectSection = {
 const primarySectionTitle = "UI/UX";
 
 const projectSections: ProjectSection[] = [
+  {
+    title: "Game Development",
+    items: [
+      {
+        id: "game-dev-1",
+        label: "Lament of the Departed",
+        size: "full",
+        previewFit: "cover",
+        backgroundClassName: "bg-[#171111]",
+        tileClassName: "aspect-[16/9] sm:col-span-2",
+        media: {
+          kind: "image",
+          src: "/images/projects/game-development/lament-of-departed.png",
+          alt: "Lament of the Departed title screen",
+        },
+      },
+    ] as ProjectPlaceholder[],
+  },
   {
     title: "Animatic Videos",
     items: [

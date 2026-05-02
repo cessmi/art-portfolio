@@ -3,6 +3,7 @@ export type ProjectCategory =
   | "Illustration"
   | "UI/UX"
   | "Graphic Design"
+  | "Game Development"
   | "Other...";
 
 export type ProjectItem = {
@@ -23,6 +24,12 @@ export const toolTags = [
   "Canva",
   "Figma",
   "Adobe After Effects",
+  "GIMP",
+  "Blender",
+  "Trello",
+  "Notion",
+  "Miro",
+  "GODOT",
 ] as const;
 
 export const developmentTags = [
@@ -31,6 +38,7 @@ export const developmentTags = [
   "Python",
   "Next.js",
   "JavaScript",
+  "Java",
   "C#",
   "Node.js",
   "Tailwind",
@@ -124,6 +132,18 @@ export const projectItems: ProjectItem[] = [
     accent: "from-[#dce7ff] to-[#f6f9ff]",
   },
   {
+    id: "lament-of-departed",
+    title: "Lament of the Departed",
+    category: "Game Development",
+    year: "2026",
+    summary:
+      "A Java narrative game about a lone character exploring a broken world, meeting NPCs, and uncovering memories through pixel maps and dialogue.",
+    highlight: "A moody Part 1 story game built with custom movement, maps, and character art.",
+    role: "Programming, game design, art, and story for Part 1",
+    stack: ["Java", "Swing / AWT", "Pixel Art"],
+    accent: "from-[#241b1b] to-[#d7aa68]",
+  },
+  {
     id: "idea",
     title: "IDE.a",
     category: "Other...",
@@ -205,6 +225,11 @@ export const projectSections = [
     id: "graphic-design",
     title: "Graphic Design",
     description: "Layouts, branding, and promo materials with a playful polish.",
+  },
+  {
+    id: "game-development",
+    title: "Game Development",
+    description: "Playable story worlds, custom engines, pixel maps, and character systems.",
   },
   {
     id: "other",
