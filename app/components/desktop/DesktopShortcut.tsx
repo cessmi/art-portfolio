@@ -18,7 +18,7 @@ function ShortcutIcon({ kind }: { kind: ShortcutKind }) {
         alt=""
         width={45}
         height={45}
-        className="h-[44px] w-[44px]"
+        className="h-[46px] w-[46px] drop-shadow-[0_5px_8px_rgba(61,92,132,0.14)]"
       />
     );
   }
@@ -30,7 +30,7 @@ function ShortcutIcon({ kind }: { kind: ShortcutKind }) {
         alt=""
         width={53}
         height={53}
-        className="h-[50px] w-[50px]"
+        className="h-[52px] w-[52px] drop-shadow-[0_5px_8px_rgba(61,92,132,0.14)]"
       />
     );
   }
@@ -41,7 +41,7 @@ function ShortcutIcon({ kind }: { kind: ShortcutKind }) {
       alt=""
       width={56}
       height={56}
-      className="h-[54px] w-[54px]"
+      className="h-[56px] w-[56px] drop-shadow-[0_5px_8px_rgba(61,92,132,0.14)]"
     />
   );
 }
@@ -59,14 +59,16 @@ export default function DesktopShortcut({
       type="button"
       onPointerDown={onPointerDown}
       onClick={onClick}
-      className={`desktop-shortcut font-hand absolute z-10 hidden w-[110px] cursor-grab touch-none select-none flex-col items-center gap-1.5 text-center text-[12px] leading-5 text-black lg:flex ${
+      className={`desktop-shortcut font-hand absolute z-20 hidden w-[104px] cursor-grab touch-none select-none flex-col items-center gap-1.5 text-center text-[12px] leading-[1.15] text-black lg:flex ${
         isDragging ? "cursor-grabbing" : ""
       }`}
       style={style}
       aria-label={label}
     >
       <ShortcutIcon kind={kind} />
-      <span>{label}</span>
+      <span className="max-w-full rounded-[4px] border border-white/60 bg-white/55 px-1.5 py-0.5 shadow-[0_2px_6px_rgba(61,92,132,0.08)] backdrop-blur-[2px]">
+        {label}
+      </span>
     </button>
   );
 }

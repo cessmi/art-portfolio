@@ -969,7 +969,7 @@ export default function DesktopScene() {
             onWindowMaximize={handleWindowMaximize}
           />
 
-          <div className="absolute left-1/2 top-[50%] z-10 w-full max-w-[560px] -translate-x-1/2 -translate-y-1/2 px-4 text-center">
+          <div className="pointer-events-none absolute left-1/2 top-[50%] z-[1] w-full max-w-[560px] -translate-x-1/2 -translate-y-1/2 px-4 text-center">
             <h1 className="font-mono-ui text-[clamp(3.1rem,6.2vw,5.9rem)] leading-[0.94] tracking-[-0.08em] text-black">
               Welcome to my
             </h1>
