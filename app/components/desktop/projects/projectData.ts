@@ -180,6 +180,18 @@ export const projectItems: ProjectItem[] = [
     accent: "from-[#edf3ff] to-[#ffffff]",
   },
   {
+    id: "kke-part912bt",
+    title: "KKE PART912BT",
+    category: "Graphic Design",
+    year: "2025",
+    summary:
+      "A product-focused promotional poster for an active loudspeaker, built around bold stage lighting and feature callouts.",
+    highlight: "Designed to make the speaker feel powerful, portable, and ready for events at a glance.",
+    role: "Product poster design, layout, visual hierarchy",
+    stack: ["Product Design", "Poster Design", "Promotional Graphics"],
+    accent: "from-[#12183f] to-[#641b30]",
+  },
+  {
     id: "portfolio-os",
     title: "Portfolio OS",
     category: "Other...",

@@ -639,6 +639,19 @@ const projectSections: ProjectSection[] = [
           alt: "Panel SOFENG Project Defense Certificates preview",
         },
       },
+      {
+        id: "graphic-11",
+        label: "KKE PART912BT Active Loudspeaker",
+        size: "half",
+        previewFit: "contain",
+        backgroundClassName: "bg-[#050819]",
+        tileClassName: "aspect-[4/5]",
+        media: {
+          kind: "image",
+          src: "/images/graphic-design/kke-part912bt.png",
+          alt: "KKE PART912BT active loudspeaker promotional poster",
+        },
+      },
     ] as ProjectPlaceholder[],
   },
   {
